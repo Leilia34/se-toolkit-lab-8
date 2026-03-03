@@ -65,7 +65,7 @@ Configuration in [`docker-compose.yml`](../docker-compose.yml):
 
 ### `caddy` service
 
-The `caddy` service runs [`Caddy`](./caddy.md#what-is-caddy), a [reverse proxy](./computer-networks.md#reverse-proxy) that serves [frontend](./web-development.md#frontend) files and forwards [API](./web-development.md#api) requests to the [`app` service](#app-service).
+The `caddy` service runs [`Caddy`](./caddy.md#what-is-caddy), a [reverse proxy](./computer-networks.md#reverse-proxy) that serves [frontend](./web-development.md#frontend) files and forwards [API](./api.md#what-is-an-api) requests to the [`app` service](#app-service).
 
 It builds from [`frontend/Dockerfile`](../frontend/Dockerfile), which uses a multi-stage build: the first stage builds the frontend with `Node.js`, and the second stage serves the output with `Caddy`.
 

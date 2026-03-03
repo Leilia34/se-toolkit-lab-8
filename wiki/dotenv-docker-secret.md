@@ -110,7 +110,7 @@ Default: `true`
 
 ### `API_KEY`
 
-The secret key used to authorize [API](./web-development.md#api) requests. See [API key authentication](./security.md#api-key-authentication).
+The secret key used to authorize [API](./api.md#what-is-an-api) requests. See [API key authentication](./security.md#api-key-authentication).
 
 Default: `my-secret-api-key`
 

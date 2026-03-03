@@ -52,7 +52,7 @@ This configuration:
 
 <!-- TODO Rename API endpoints -> API paths? -->
 
-`Caddy` routes [API endpoints](./web-development.md#endpoint) (`/items*`, `/learners*`, `/interactions*`, `/docs*`, `/openapi.json`) to the [`app` service](./docker-compose-yml.md#app-service).
+`Caddy` routes [API endpoints](./api.md#endpoint) (`/items*`, `/learners*`, `/interactions*`, `/docs*`, `/openapi.json`) to the [`app` service](./docker-compose-yml.md#app-service).
 
 ### `<caddy-port>`
 
