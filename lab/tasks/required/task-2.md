@@ -171,7 +171,7 @@ Title: `[Task] Back-end Testing`
    Find this line in `filter_by_max_item_id`:
 
    ```python
-   return [i for i in interactions if i.item_id < max_item_id]  # BUG
+   return [i for i in interactions if i.item_id < max_item_id]
    ```
 
    Change it to:
