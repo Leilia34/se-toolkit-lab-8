@@ -28,6 +28,9 @@
 - [13. Security integration pattern](#13-security-integration-pattern)
 - [14. Database naming conventions](#14-database-naming-conventions)
 - [15. Agent configuration (`AGENTS.md`)](#15-agent-configuration-agentsmd)
+  - [15.1. File layout](#151-file-layout)
+  - [15.2. `AGENTS.md` structure](#152-agentsmd-structure)
+  - [15.3. Creating symlinks](#153-creating-symlinks)
 
 Use this file when creating or restructuring a lab repository.
 
@@ -208,7 +211,7 @@ The README links to `setup-simple.md` by default, with a note directing first-ti
 
 ----
 
-## 3.1. `lab/tasks/setup.md` — Full setup
+### 3.1. `lab/tasks/setup.md` — Full setup
 
 Structure:
 
@@ -255,7 +258,7 @@ These enhancements can make your life easier:
 - ...
 ```
 
-### 3.1.1. Key rules for `setup.md`
+#### 3.1.1. Key rules for `setup.md`
 
 - Cover every step from scratch: partner, VM, programs, fork, clone, environment, start services.
 - Mark steps that must be redone for this lab with `(UPD)` in the heading. Explain at the top that `(UPD)` steps are required even if done before.
@@ -266,7 +269,7 @@ These enhancements can make your life easier:
 
 ----
 
-## 3.2. `lab/tasks/setup-simple.md` — Lab-specific setup
+### 3.2. `lab/tasks/setup-simple.md` — Lab-specific setup
 
 Structure:
 
@@ -293,7 +296,7 @@ Structure:
 ...
 ```
 
-### 3.2.1. Key rules for `setup-simple.md`
+#### 3.2.1. Key rules for `setup-simple.md`
 
 - Target audience: returning students who have the base setup from the previous lab.
 - Do NOT include first-time-only steps: installing VS Code, Docker, Git, SSH, configuring Git, setting up the shell, creating a VM (unless the lab specifically requires a fresh VM).
@@ -690,7 +693,7 @@ Name tables according to their role in the schema:
 
 The repository uses a single canonical agent configuration file that all AI coding assistants read.
 
-### File layout
+### 15.1. File layout
 
 ```text
 <repo-root>/
@@ -706,7 +709,7 @@ The repository uses a single canonical agent configuration file that all AI codi
 
 Agent tool directories (`.claude/`, `.qwen/`) are symlinks to `.agents/` so all agents share the same skill definitions.
 
-### `AGENTS.md` structure
+### 15.2. `AGENTS.md` structure
 
 `AGENTS.md` is the single source of truth for agent instructions. It follows the same structure as `CLAUDE.md`:
 
@@ -728,7 +731,7 @@ Read before making changes:
 - Each section lists the relevant convention files to read before making changes.
 - `CLAUDE.md` and `QWEN.md` are symlinks — never edit them directly; edit `AGENTS.md`.
 
-### Creating symlinks
+### 15.3. Creating symlinks
 
 ```bash
 ln -s AGENTS.md CLAUDE.md
