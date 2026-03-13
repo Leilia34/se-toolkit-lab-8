@@ -29,6 +29,10 @@ It combines two approaches to identify problems with the code:
 - [static analysis](#static-analysis), which inspects code without running it
 - [dynamic analysis](#dynamic-analysis), which executes code with specific inputs and checks the outputs
 
+The identified problems are fixed via:
+
+- [code transformation](#code-transformation).
+
 Together, these techniques catch bugs early, prevent regressions when code changes, and document the intended behavior of a program.
 
 ## Static analysis
