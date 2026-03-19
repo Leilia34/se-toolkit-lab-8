@@ -166,7 +166,9 @@ Default: `admin`
 
 ### `PGADMIN_HOST_ADDRESS`
 
-The [IP address](./computer-networks.md#ip-address) exposed on the [host](./computer-networks.md#host). [`127.0.0.1`](./computer-networks.md#127001) restricts access to the local machine only.
+The [IP address](./computer-networks.md#ip-address) exposed on the [host](./computer-networks.md#host).
+
+[`127.0.0.1`](./computer-networks.md#127001) restricts access to the local machine only.
 
 Default: `127.0.0.1`
 
@@ -202,7 +204,9 @@ Variables for the [LMS API](./lms-api.md#about-the-lms-api).
 
 ### `LMS_API_HOST_ADDRESS`
 
-The [IP address](./computer-networks.md#ip-address) exposed on the [host](./computer-networks.md#host). [`0.0.0.0`](./computer-networks.md#0000) accepts connections from any network interface.
+The [IP address](./computer-networks.md#ip-address) of the [LMS API](./lms-api.md#about-the-lms-api) exposed on the [host](./computer-networks.md#host).
+
+[`0.0.0.0`](./computer-networks.md#0000) accepts connections from any network interface.
 
 Default: `0.0.0.0`
 
