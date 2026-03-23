@@ -256,7 +256,7 @@ It can happen that commits on the branch [`<branch>`](./git.md#branch-placeholde
 > [!CAUTION]
 > This operation discards all uncommitted changes and local commits that are not on the [`<remote>`](./git.md#remote-placeholder).
 
-1. [Fetch the latest changes](#fetch-the-latest-changes-using-the-vs-code-terminal).
+1. [Fetch the branch `<branch>`](#fetch-the-branch-branch-using-the-vs-code-terminal).
 
 2. To hard reset the local branch `<branch>`,
 
