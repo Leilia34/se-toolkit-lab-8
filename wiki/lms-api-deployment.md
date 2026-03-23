@@ -23,7 +23,7 @@ This page describes how to deploy the [LMS API](./lms-api.md#about-the-lms-api) 
 6. [Configure `Docker` DNS (REMOTE)](./docker.md#configure-docker-dns).
 7. [Start the services (REMOTE)](#start-the-services-remote).
 8. [Populate the database (LOCAL)](#populate-the-database-local).
-9.  [View the dashboard (LOCAL)](#view-the-dashboard-local).
+9. [View the dashboard (LOCAL)](#view-the-dashboard-local).
 
 ### Configure the environment (REMOTE)
 
