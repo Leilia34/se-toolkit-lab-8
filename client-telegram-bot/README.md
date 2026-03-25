@@ -57,7 +57,7 @@ Add to `.env.docker.secret`:
 
 ```bash
 BOT_TOKEN=your-telegram-bot-token
-LMS_API_BASE_URL=http://backend:8000
+GATEWAY_BASE_URL=http://backend:8000
 LLM_API_KEY=your-qwen-api-key
 LLM_API_BASE_URL=http://host.docker.internal:42005/v1
 LLM_API_MODEL=coder-model
