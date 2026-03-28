@@ -1,0 +1,25 @@
+services:
+  nanobot:
+    build:
+      context: .
+      dockerfile: nanobot/Dockerfile
+      args:
+        REGISTRY_PREFIX_DOCKER_HUB: ""
+    restart: unless-stopped
+    networks:
+      - lms-network
+    environment:
+      - LLM_API_KEY=not-needed
+      - LLM_API_BASE_URL=http://qwen-code-api:8080/v1
+      - NANOBOT_LMS_BACKEND_URL=http://backend:8000
+      - NANOBOT_LMS_API_KEY=lms-api-key
+      - NANOBOT_ACCESS_KEY=02051955
+      - VICTORIALOGS_URL=http://victorialogs:9428
+      - VICTORIATRACES_URL=http://victoriatraces:10428
+    depends_on:
+      - backend
+      - qwen-code-api
+
+  caddy:
+    depends_on:
+      - nanobot
