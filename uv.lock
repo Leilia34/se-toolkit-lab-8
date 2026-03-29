@@ -120,6 +120,25 @@ wheels = [
 ]
 
 [[package]]
+name = "anthropic"
+version = "0.86.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "anyio" },
+    { name = "distro" },
+    { name = "docstring-parser" },
+    { name = "httpx" },
+    { name = "jiter" },
+    { name = "pydantic" },
+    { name = "sniffio" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/37/7a/8b390dc47945d3169875d342847431e5f7d5fa716b2e37494d57cfc1db10/anthropic-0.86.0.tar.gz", hash = "sha256:60023a7e879aa4fbb1fed99d487fe407b2ebf6569603e5047cfe304cebdaa0e5", size = 583820, upload-time = "2026-03-18T18:43:08.017Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/63/5f/67db29c6e5d16c8c9c4652d3efb934d89cb750cad201539141781d8eae14/anthropic-0.86.0-py3-none-any.whl", hash = "sha256:9d2bbd339446acce98858c5627d33056efe01f70435b22b63546fe7edae0cd57", size = 469400, upload-time = "2026-03-18T18:43:06.526Z" },
+]
+
+[[package]]
 name = "anyio"
 version = "4.13.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1144,7 +1163,6 @@ dependencies = [
     { name = "httpx" },
     { name = "json-repair" },
     { name = "lark-oapi" },
-    { name = "litellm" },
     { name = "loguru" },
     { name = "mcp" },
     { name = "msgpack" },
@@ -1167,9 +1185,99 @@ dependencies = [
     { name = "websocket-client" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f8/ad/399695c86f661de8d8ca0dba1b1ba0d124f130feb90a5f418edb45ea481e/nanobot_ai-0.1.4.post5.tar.gz", hash = "sha256:ed627f5eac7f747bc9975adfcb833ab3a8a4c4213648c2a20b04604a73ff004d", size = 188222, upload-time = "2026-03-16T15:24:13.77Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/e4/a2/5a17c62311541fa2d69f8f820c2a9245084f8162fd12bc212a383d81c342/nanobot_ai-0.1.4.post5-py3-none-any.whl", hash = "sha256:fe415d361fc4b6e6bb85916adb419b55d327fedf67022d0f38ab83c12167003e", size = 214760, upload-time = "2026-03-16T15:24:11.629Z" },
+sdist = { hash = "sha256:577a1b2ac0b5b17a68b8664c3da5c7d548b9a41aeb39d08915108d5e63937bf4" }
+
+[package.metadata]
+requires-dist = [
+    { name = "anthropic", specifier = ">=0.45.0,<1.0.0" },
+    { name = "chardet", specifier = ">=3.0.2,<6.0.0" },
+    { name = "croniter", specifier = ">=6.0.0,<7.0.0" },
+    { name = "ddgs", specifier = ">=9.5.5,<10.0.0" },
+    { name = "dingtalk-stream", specifier = ">=0.24.0,<1.0.0" },
+    { name = "httpx", specifier = ">=0.28.0,<1.0.0" },
+    { name = "json-repair", specifier = ">=0.57.0,<1.0.0" },
+    { name = "langsmith", marker = "extra == 'langsmith'", specifier = ">=0.1.0" },
+    { name = "lark-oapi", specifier = ">=1.5.0,<2.0.0" },
+    { name = "loguru", specifier = ">=0.7.3,<1.0.0" },
+    { name = "matrix-nio", extras = ["e2e"], marker = "extra == 'matrix'", specifier = ">=0.25.2" },
+    { name = "mcp", specifier = ">=1.26.0,<2.0.0" },
+    { name = "mistune", marker = "extra == 'matrix'", specifier = ">=3.0.0,<4.0.0" },
+    { name = "msgpack", specifier = ">=1.1.0,<2.0.0" },
+    { name = "nh3", marker = "extra == 'matrix'", specifier = ">=0.2.17,<1.0.0" },
+    { name = "oauth-cli-kit", specifier = ">=0.1.3,<1.0.0" },
+    { name = "openai", specifier = ">=2.8.0" },
+    { name = "prompt-toolkit", specifier = ">=3.0.50,<4.0.0" },
+    { name = "pycryptodome", marker = "extra == 'weixin'", specifier = ">=3.20.0" },
+    { name = "pydantic", specifier = ">=2.12.0,<3.0.0" },
+    { name = "pydantic-settings", specifier = ">=2.12.0,<3.0.0" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=9.0.0,<10.0.0" },
+    { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = ">=1.3.0,<2.0.0" },
+    { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=6.0.0,<7.0.0" },
+    { name = "python-socketio", specifier = ">=5.16.0,<6.0.0" },
+    { name = "python-socks", extras = ["asyncio"], specifier = ">=2.8.0,<3.0.0" },
+    { name = "python-telegram-bot", extras = ["socks"], specifier = ">=22.6,<23.0" },
+    { name = "qq-botpy", specifier = ">=1.2.0,<2.0.0" },
+    { name = "qrcode", extras = ["pil"], marker = "extra == 'weixin'", specifier = ">=8.0" },
+    { name = "questionary", specifier = ">=2.0.0,<3.0.0" },
+    { name = "readability-lxml", specifier = ">=0.8.4,<1.0.0" },
+    { name = "rich", specifier = ">=14.0.0,<15.0.0" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.1.0" },
+    { name = "slack-sdk", specifier = ">=3.39.0,<4.0.0" },
+    { name = "slackify-markdown", specifier = ">=0.2.0,<1.0.0" },
+    { name = "socksio", specifier = ">=1.0.0,<2.0.0" },
+    { name = "tiktoken", specifier = ">=0.12.0,<1.0.0" },
+    { name = "typer", specifier = ">=0.20.0,<1.0.0" },
+    { name = "websocket-client", specifier = ">=1.9.0,<2.0.0" },
+    { name = "websockets", specifier = ">=16.0,<17.0" },
+    { name = "wecom-aibot-sdk-python", marker = "extra == 'wecom'", specifier = ">=0.1.5" },
+]
+provides-extras = ["wecom", "weixin", "matrix", "langsmith", "dev"]
+
+[[package]]
+name = "nanobot-channel-protocol"
+version = "0.1.0"
+source = { editable = "nanobot-websocket-channel/nanobot-channel-protocol" }
+dependencies = [
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pydantic", specifier = ">=2.12.0,<3.0.0" }]
+
+[[package]]
+name = "nanobot-project"
+version = "0.1.0"
+source = { virtual = "nanobot" }
+dependencies = [
+    { name = "lms-mcp" },
+    { name = "nanobot-ai" },
+    { name = "nanobot-webchat" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "lms-mcp", editable = "mcp" },
+    { name = "nanobot-ai", specifier = ">=0.1.4" },
+    { name = "nanobot-webchat", editable = "nanobot-websocket-channel/nanobot-webchat" },
+]
+
+[[package]]
+name = "nanobot-webchat"
+version = "1.0.0"
+source = { editable = "nanobot-websocket-channel/nanobot-webchat" }
+dependencies = [
+    { name = "aiohttp" },
+    { name = "nanobot-ai" },
+    { name = "nanobot-channel-protocol" },
+    { name = "websockets" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "aiohttp", specifier = ">=3.13.0,<4.0.0" },
+    { name = "nanobot-ai", url = "https://github.com/HKUDS/nanobot/archive/e7d371ec1e6531b28898ec2c869ef338e8dd46ec.zip" },
+    { name = "nanobot-channel-protocol", editable = "nanobot-websocket-channel/nanobot-channel-protocol" },
+    { name = "websockets", specifier = ">=15.0" },
 ]
 
 [[package]]
