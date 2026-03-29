@@ -81,3 +81,81 @@ Lab 08 — lab-08
 
 **Flutter UI:** Доступен по адресу `http://10.93.26.99:42002/flutter`
 
+
+---
+
+## Task 4A — Multi-step investigation
+
+**Agent response to "What went wrong?" (PostgreSQL stopped):**
+
+The agent successfully chained multiple tools:
+1. `logs_error_count` - found errors by service
+2. `lms_health` - detected backend unhealthy
+3. `logs_search` - found "connection refused" errors
+4. `traces_errors` - found error traces
+
+Response summary: "I found several issues with the backend services: LMS unhealthy, Database connection refused"
+
+---
+
+## Task 4B — Proactive health check
+
+**Cron job created:**
+- Job: "🔍 Health Check: Check backend"
+- Schedule: Every 2 minutes (120 seconds)
+- Actions: Check logs for errors, inspect traces, post summary
+
+**Proactive report (while PostgreSQL stopped):**
+🔍 Health Check Summary
+Status: ❌ CRITICAL - Backend Service Failure
+
+Backend Services:
+| Service | Status | Details |
+
+
+**After PostgreSQL restarted:**
+🔍 Health Check Summary
+Status: ✅ Application Healthy, ⚠️ Monitoring Issues
+
+
+The cron job was successfully removed on request.
+
+---
+
+## Task 4C — Bug fix and recovery
+
+### Root cause
+**Planted bug in `backend/app/routers/items.py`:**
+
+```python
+# BEFORE (buggy):
+except Exception as exc:
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Items not found",
+    ) from exc
+Any exception (including DatabaseConnectionError) was incorrectly returned as 404 NOT FOUND instead of 500 INTERNAL SERVER ERROR. This hid the real cause of failures.
+
+Fix
+# AFTER (fixed):
+except OperationalError as exc:
+    raise HTTPException(
+        status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+        detail="Database service unavailable",
+    ) from exc
+except Exception as exc:
+    raise HTTPException(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        detail=f"Internal server error: {str(exc)}",
+    ) from exc
+Post-fix verification
+Agent response after redeploy (PostgreSQL stopped):
+
+**Status: ❌ CRITICAL - Backend Service Failure**
+The agent now correctly identifies the backend failure instead of seeing a misleading 404 error.
+
+Healthy report after PostgreSQL restarted:
+
+**Status: ✅ Application Healthy, ⚠️ Monitoring Issues**
+The system is now correctly reported as healthy when PostgreSQL is running.
+
