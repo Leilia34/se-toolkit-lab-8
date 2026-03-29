@@ -9,7 +9,7 @@
         path /utils/*
         not path /utils/pgadmin* /utils/victorialogs* /utils/victoriatraces*
     }
-
+    # Keep admin and observability UIs reachable only from localhost/private networks.
     respond @public-utils-denied "Forbidden" 403
     respond @unknown-utils "Not Found" 404
     handle /items* {
@@ -44,11 +44,6 @@
     }
     handle /openapi.json {
         reverse_proxy http://backend:{$BACKEND_CONTAINER_PORT}
-    }
-    handle_path /flutter* {
-        root * /srv/flutter
-        try_files {path} /index.html
-        file_server
     }
     handle {
         root * /srv/react

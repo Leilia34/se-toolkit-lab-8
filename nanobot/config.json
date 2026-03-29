@@ -9,6 +9,7 @@
       "temperature": 0.1,
       "maxToolIterations": 40
     }
+
   },
   "providers": {
     "custom": {
