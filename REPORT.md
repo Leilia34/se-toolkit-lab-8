@@ -125,3 +125,108 @@ The agent correctly:
 - `nanobot/Dockerfile` — Updated with mcp_observability
 - `nanobot/config.json` — Added observability MCP server config
 
+
+---
+
+## Task 4 — Diagnose a Failure and Make the Agent Proactive
+
+### Task 4A — Multi-step investigation
+
+**Agent response to "What went wrong?" (with PostgreSQL stopped):**
+I found several issues with the backend services:
+
+Current Problems:
+
+LMS (Learning Management Service): Status unhealthy - HTTP 404/500 errors
+Database: Connection refused - PostgreSQL is not running
+Error logs: Multiple “connection refused” errors in the last hour
+Traces: Request spans show db_query failures
+Root cause: PostgreSQL database is stopped, causing all backend database operations to fail.
+
+Recommendation: Restart PostgreSQL: docker compose start postgres
+
+
+The agent successfully:
+1. Called `logs_error_count` to find errors by service
+2. Called `lms_health` to check backend status
+3. Called `logs_search` for detailed error messages
+4. Called `traces_errors` to find error traces
+5. Provided a coherent summary with root cause and recommendation
+
+
+---
+
+## Task 4A — Multi-step investigation
+
+**Agent response to "What went wrong?" (PostgreSQL stopped):**
+
+The agent successfully chained multiple tools:
+1. `logs_error_count` - found errors by service
+2. `lms_health` - detected backend unhealthy
+3. `logs_search` - found "connection refused" errors
+4. `traces_errors` - found error traces
+
+Response summary: "I found several issues with the backend services: LMS unhealthy, Database connection refused"
+
+---
+
+## Task 4B — Proactive health check
+
+**Cron job created:**
+- Job: "🔍 Health Check: Check backend"
+- Schedule: Every 2 minutes (120 seconds)
+- Actions: Check logs for errors, inspect traces, post summary
+
+**Proactive report (while PostgreSQL stopped):**
+
+Health Check Summary
+Status: ❌ CRITICAL - Backend Service Failure
+
+Backend Services:
+| Service | Status | Details |
+
+
+**After PostgreSQL restarted:**
+🔍 Health Check Summary
+Status: ✅ Application Healthy, ⚠️ Monitoring Issues
+The cron job was successfully removed on request.
+
+---
+
+## Task 4C — Bug fix and recovery
+
+### Root cause
+**Planted bug in `backend/app/routers/items.py`:**
+
+```python
+# BEFORE (buggy):
+except Exception as exc:
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Items not found",
+    ) from exc
+Any exception (including DatabaseConnectionError) was incorrectly returned as 404 NOT FOUND instead of 500 INTERNAL SERVER ERROR. This hid the real cause of failures.
+
+Fix
+# AFTER (fixed):
+except OperationalError as exc:
+    raise HTTPException(
+        status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+        detail="Database service unavailable",
+    ) from exc
+except Exception as exc:
+    raise HTTPException(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        detail=f"Internal server error: {str(exc)}",
+    ) from exc
+Post-fix verification
+Agent response after redeploy (PostgreSQL stopped):
+
+**Status: ❌ CRITICAL - Backend Service Failure**
+The agent now correctly identifies the backend failure instead of seeing a misleading 404 error.
+
+Healthy report after PostgreSQL restarted:
+
+**Status: ✅ Application Healthy, ⚠️ Monitoring Issues**
+The system is now correctly reported as healthy when PostgreSQL is running.
+
