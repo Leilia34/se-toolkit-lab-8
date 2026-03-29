@@ -24,8 +24,24 @@ services:
       - backend
       - qwen-code-api
 
+  client-web-flutter:
+    build:
+      context: ./nanobot-websocket-channel/client-web-flutter
+      args:
+        REGISTRY_PREFIX_DOCKER_HUB: ""
+        REGISTRY_PREFIX_GHCR: ""
+    volumes:
+      - client-web-flutter:/output
+
   caddy:
     depends_on:
       - nanobot
+      - client-web-flutter
     environment:
       - NANOBOT_WEBCHAT_CONTAINER_PORT=8765
+    volumes:
+      - client-web-flutter:/srv/flutter:ro
+
+
+volumes:
+  client-web-flutter:
