@@ -1,7 +1,7 @@
 """Router for item endpoints — reference implementation."""
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.database import get_session
@@ -10,19 +10,23 @@ from app.models.item import ItemCreate, ItemRecord, ItemUpdate
 
 router = APIRouter()
 
-
 @router.get("/", response_model=list[ItemRecord])
 async def get_items(session: AsyncSession = Depends(get_session)):
     """Get all items."""
     try:
         return await read_items(session)
-    except Exception as exc:
+    except OperationalError as exc:
+        # Database connection error - return 500
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Items not found",
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Database service unavailable",
         ) from exc
-
-
+    except Exception as exc:
+        # Other errors - return 500
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Internal server error: {str(exc)}",
+        ) from exc
 @router.get("/{item_id}", response_model=ItemRecord)
 async def get_item(item_id: int, session: AsyncSession = Depends(get_session)):
     """Get a specific item by its id."""
@@ -32,7 +36,6 @@ async def get_item(item_id: int, session: AsyncSession = Depends(get_session)):
             status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
         )
     return item
-
 
 @router.post("/", response_model=ItemRecord, status_code=201)
 async def post_item(body: ItemCreate, session: AsyncSession = Depends(get_session)):
@@ -50,8 +53,6 @@ async def post_item(body: ItemCreate, session: AsyncSession = Depends(get_sessio
             status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
             detail="parent_id does not reference an existing item",
         )
-
-
 @router.put("/{item_id}", response_model=ItemRecord)
 async def put_item(
     item_id: int, body: ItemUpdate, session: AsyncSession = Depends(get_session)
