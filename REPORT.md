@@ -80,7 +80,13 @@ Lab 08 — lab-08
 "}
 
 **Flutter UI:** Доступен по адресу `http://10.93.26.99:42002/flutter`
+### Screenshots
 
+![Nanobot startup logs](images/2026-04-02_21-22-41.png)
+*Рисунок 1 — Логи запуска nanobot: MCP инструменты зарегистрированы, WebChat канал активен*
+
+![Flutter client chat](images/2026-04-02_21-23-47.png)
+*Рисунок 2 — Flutter клиент: WebSocket соединение установлено, агент отвечает на сообщения*
 
 ---
 
