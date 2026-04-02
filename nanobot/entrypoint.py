@@ -1,39 +1,45 @@
-#!/usr/bin/env python3
-"""Resolve environment variables into nanobot config and launch gateway."""
-
+"""Resolve environment variables into config.json and start nanobot gateway."""
 import json
 import os
-import sys
-from pathlib import Path
+import re
 
-def resolve_config():
-    config_path = Path(__file__).parent / "config.json"
-    workspace_path = Path(__file__).parent / "workspace"
-    resolved_path = Path(__file__).parent / "config.resolved.json"
-    if not config_path.exists():
-        print(f"Error: Config file not found at {config_path}", file=sys.stderr)
-        sys.exit(1)
-    
-    with open(config_path) as f:
+
+def resolve_env_vars(config: dict) -> dict:
+    def resolve_value(value):
+        if isinstance(value, str):
+            if value.startswith("${") and value.endswith("}"):
+                var_name = value[2:-1]
+                return os.environ.get(var_name, "")
+            match = re.match(r'\$\{([^}:]+)(?::-([^}]*))?\}', value)
+            if match:
+                var_name = match.group(1)
+                default = match.group(2) or ""
+                return os.environ.get(var_name, default)
+        elif isinstance(value, dict):
+            return {k: resolve_value(v) for k, v in value.items()}
+        elif isinstance(value, list):
+            return [resolve_value(item) for item in value]
+        return value
+    return resolve_value(config)
+
+
+def main():
+    with open("./config.json") as f:
         config = json.load(f)
-    
-    if "custom" in config.get("providers", {}):
-        if api_key := os.environ.get("LLM_API_KEY"):
-            config["providers"]["custom"]["apiKey"] = api_key
-        if api_base := os.environ.get("LLM_API_BASE_URL"):
-            config["providers"]["custom"]["apiBase"] = api_base
-    
-    if "gateway" in config:
-        if host := os.environ.get("NANOBOT_GATEWAY_CONTAINER_ADDRESS"):
-            config["gateway"]["host"] = host
-        if port := os.environ.get("NANOBOT_GATEWAY_CONTAINER_PORT"):
-            config["gateway"]["port"] = int(port)
-    
-    with open(resolved_path, "w") as f:
+    config = resolve_env_vars(config)
+    config.setdefault("channels", {})
+    config["channels"]["webchat"] = {
+        "enabled": True,
+        "host": os.environ.get("NANOBOT_WEBCHAT_CONTAINER_ADDRESS", "0.0.0.0"),
+        "port": int(os.environ.get("NANOBOT_WEBCHAT_CONTAINER_PORT", "8765")),
+        "accessKey": os.environ.get("NANOBOT_ACCESS_KEY", ""),
+        "allow_from": ["*"]
+    }
+    with open("./config.resolved.json", "w") as f:
         json.dump(config, f, indent=2)
-    return str(resolved_path), str(workspace_path)
+    print(f"Starting nanobot gateway with config: {config}")
+    os.execvp("nanobot", ["nanobot", "gateway", "--config", "./config.resolved.json", "--workspace", "./workspace"])
+
 
 if __name__ == "__main__":
-    resolved_config, workspace = resolve_config()
-    os.execvp("/app/.venv/bin/nanobot", ["/app/.venv/bin/nanobot", "gateway", "--config", resolved_config, "--workspace", workspace
-])
+    main()
