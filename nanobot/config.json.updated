@@ -19,8 +19,8 @@
   },
   "providers": {
     "custom": {
-      "apiKey": "hnsnFKvuX88AH9XpHNj7ts2tsvkmDZiFrgbm1ZQ1WIxG89jLbr-X0S-eRsFe612QibeT-eXI5HOHqVTi_r_44g",
-      "apiBase": "http://qwen-code-api:8080/v1"
+      "apiKey": "hnsnFKvuX88AH9XpHNj7ts2tsvkmDZiFrgbm1ZQ1WIxG89jLbr-X0S-eRsFe612QibeT-eXI5HOHqVTi_r_44g\nhnsnFKvuX88AH9XpHNj7ts2tsvkmDZiFrgbm1ZQ1WIxG89jLbr-X0S-eRsFe612QibeT-eXI5HOHqVTi_r_44g",
+      "apiBase": "http://localhost:42005/v1"
     }
   },
   "gateway": {
